@@ -1,5 +1,5 @@
 const express = require('express');
-const sessions = require('./controllers/sessions')
+const admins = require('./controllers/admins')
 
 const app = express();
 app.get('/', (req, res) => {
@@ -9,12 +9,10 @@ app.listen(3000, () => {
   console.log('Server listening at port 3000');
 });
 
-// Sessions
-app.get('/sessions', sessions.getAllSessions);
-app.get('/sessions/searchById/:id', sessions.getSessionById);
-app.get('/sessions/add', sessions.createNewSession);
-app.get('/sessions/update/:id', sessions.editSessionById);
-app.get('/sessions/delete/:id', sessions.deleteSessionById);
-app.get('/sessions/searchByPostulant/:postulant_id', sessions.getSessionByPostulantId);
-app.get('/sessions/searchByCouncelor/:councelor_id', sessions.getSessionByCouncelorId);
-app.get('/sessions/searchByAccomplished/:accomplished', sessions.getSessionByAccomplishedState);
+// Admins
+app.get('/admins', admins.getAllAdmins);
+app.get('/admins/searchById/:id', admins.getAdminById);
+app.get('/admins/searchByEmail/:email', admins.getAdminByEmail);
+app.get('/admins/add', admins.createNewAdmin);
+app.get('/admins/update/:id', admins.editAdminById);
+app.get('/admins/delete/:id', admins.deleteAdminById);
