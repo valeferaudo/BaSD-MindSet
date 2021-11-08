@@ -1,7 +1,7 @@
 const counselors = require('../data/counselors.json');
 const fs = require('fs');
 
-// Getting all Counselors
+// Get all Counselors
 const getCounselors = (req, res) => {
     if (counselors.length === 0){
         return res.status(400).json({ msg: 'Counselors not found'});
@@ -9,7 +9,7 @@ const getCounselors = (req, res) => {
     return res.json(counselors);
 }
 
-// Getting Counselors by Country
+// Get Counselors by Country
 const getCounselorsByCountry = (req, res) => {
     const country = req.params.country;
     let filterCounselors = counselors.filter(item => item.country.toLowerCase().includes(country.toLowerCase()))
@@ -19,7 +19,7 @@ const getCounselorsByCountry = (req, res) => {
     return res.json(filterCounselors);
 }
 
-// Getting Counselor by ID
+// Get Counselor by ID
 const getCounselorsById = (req, res) => {
     const id = req.params.id;
     let filterCounselorsId = counselors.filter(item => item.id == id)
