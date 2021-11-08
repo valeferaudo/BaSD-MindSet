@@ -11,7 +11,9 @@ app.get('/', (req, res) => {
 app.get('/counselors', Counselors.getCounselors);
 app.get('/counselors/country/:country', Counselors.getCounselorsByCountry);
 app.get('/counselors/id/:id', Counselors.getCounselorsById);
-
+app.get('/counselors/add', Counselors.createCounselor);
+app.get('/counselors/delete/:id', Counselors.deleteCounselor);
+app.get('/counselors/update/:id', Counselors.updateCounselor);
 
 // clients
 app.get('/clients', (req, res) => {
