@@ -1,6 +1,5 @@
 const sessions = require('../data/sessions.json');
 const fs = require('fs');
-const { stringify } = require('querystring');
 
 const getAllSessions = (req, res) => {
     res.send(sessions);
