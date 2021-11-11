@@ -1,35 +1,25 @@
 const counselors = require('../data/counselors.json');
 const fs = require('fs');
 
-// Get all Counselors
 const getCounselors = (req, res) => {
-    if (counselors.length === 0){
-        return res.status(400).json({ msg: 'Counselors not found'});
-    }
     return res.json(counselors);
 }
 
-// Get Counselors by Country
 const getCounselorsByCountry = (req, res) => {
     const country = req.params.country;
     let filterCounselors = counselors.filter(item => item.country.toLowerCase().includes(country.toLowerCase()))
-    if (filterCounselors.length === 0){
-        return res.status(400).json({ msg: `Counselors from country ${country} not found`});
-    }
     return res.json(filterCounselors);
 }
 
-// Get Counselor by ID
 const getCounselorsById = (req, res) => {
     const id = req.params.id;
     let filterCounselorsId = counselors.filter(item => item.id == id)
     if (filterCounselorsId.length === 0){
-        return res.status(400).json({ msg: `Counselor with ID ${id} not found`});
+        return res.status(404).send(`Counselor with ID ${id} not found`);
     }
     return res.json(filterCounselorsId);
 }
 
-// Add a new Counselor
 const createCounselor = (req, res) => {
     const {
         first_name,
@@ -37,7 +27,7 @@ const createCounselor = (req, res) => {
         email
     } = req.query;
     if (!first_name || !last_name || !email){
-        return res.status(400).json({ msg: 'Missing data to create Counselor'});
+        return res.status(400).send('Missing data to create Counselor');
     } 
     const newCounselor = {
         id: counselors.length + 1,
@@ -58,40 +48,38 @@ const createCounselor = (req, res) => {
     counselors.push(newCounselor);
     fs.writeFile('./data/counselors.json', JSON.stringify(counselors), (err) => {
         if (err) {
-            return res.status(400).json({ msg: 'Couldn\'t create Counselor file'});
+            return res.status(400).send('Couldn\'t create Counselor file');
         } else {
-            return res.status(200).json({ msg: 'New Counselor succesfully created'});
+            return res.status(201).send('New Counselor succesfully created');
         }
     })
 }
 
-// Delete a Counselor
 const deleteCounselor = (req, res) => {
     if(!req.params.id) {
-        return res.status(400).json({ msg: 'Counselor ID not found' });
+        return res.status(400).send('Counselor ID not found');
     }
     const counselorIndex = counselors.findIndex(item => item.id == req.params.id);
     if(counselorIndex === -1){
-        return res.status(400).json({ msg: 'Couldn\'t find Counselor'});
+        return res.status(400).send('Couldn\'t find Counselor');
     }
     counselors.splice(counselorIndex, 1);
     fs.writeFile('./data/counselors.json', JSON.stringify(counselors), (err) => {
         if (err) {
-            return res.status(400).json({ msg: 'Couldn´t Delete Counselor'});
+            return res.status(400).send('Couldn´t Delete Counselor');
         } else {
-            return res.status(200).json({ msg: 'Counselor succesfully deleted'});
+            return res.status(200).send('Counselor succesfully deleted');
         }
     })
 }
 
-//  Update a Counselor
 const updateCounselor = (req, res) => { 
     if(!req.params.id) {
-        return res.status(400).json({ msg: 'Counselor ID not found'});
+        return res.status(400).send('Counselor ID not found');
     }
     const counselorIndex = counselors.findIndex(item => item.id == req.params.id);
     if(counselorIndex === -1){
-        return res.status(400).json({ msg: 'Couldn\'t find Counselor'});
+        return res.status(400).send('Couldn\'t find Counselor');
     }
     const updateCounselor = {
         id: req.params.id,
@@ -112,9 +100,9 @@ const updateCounselor = (req, res) => {
     counselors[counselorIndex] = updateCounselor;
     fs.writeFile('./data/counselors.json', JSON.stringify(counselors), (err) => {
         if (err) {
-            return res.status(400).json({ msg: 'Couldn\'t Update Counselor'});
+            return res.status(400).send('Couldn\'t Update Counselor');
         } else {
-            return res.status(200).json({ msg: 'Counselor succesfully updated'});
+            return res.status(200).send('Counselor succesfully updated');
         }
     })
 }
